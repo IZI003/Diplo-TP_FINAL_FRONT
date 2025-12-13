@@ -81,12 +81,19 @@ VITE_SOCKET_URL=http://localhost:4000
 📁 Estructura general
 
 src/
+
 ├── Context/        # Contextos globales (Auth, Socket, User, etc.)
+
 ├── socket/         # Configuración de Socket.IO
+
 ├── components/     # Componentes reutilizables
+
 ├── pages/          # Vistas principales
+
 ├── App.jsx
+
 └── main.jsx
+
 
 🧩 Funcionalidades principales
 
