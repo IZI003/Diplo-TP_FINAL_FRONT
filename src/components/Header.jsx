@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import ModalSeleccionados from "./ModalSeleccionados";
 import { UseAuth } from "../Context/AuthContext";
+import ThemeToggleButton from "./ThemeToggleButton";
 
-export default function Header() {
+export default function Header({ openRegister }) {
   const navigate = useNavigate();
  const { user, logout } = UseAuth();   // <-- AHORA EL HEADER VE EL USUARIO
 
@@ -12,7 +13,7 @@ export default function Header() {
   // Estados para los menús
   const [showAccountMenu, setShowAccountMenu] = useState(false);
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
-
+const esAdmin = user?.grupoActivo?.admin?._id === user?.id;
   // Detectar si hay usuario en localStorage
 
   
@@ -34,7 +35,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="flex justify-between items-center p-4 bg-gray-200 dark:bg-gray-800">
+    <header className="flex justify-between items-center p-4 bg-gray-200 dark:bg-gray-800" style={{ backgroundColor: "var(--card-bg)", color: "var(--text-color)" }} >
 
       {/* ---------- Botón Account Circle (Login / Logout / Perfil) ---------- */}
       <div className="relative" ref={accRef}>
@@ -51,6 +52,8 @@ export default function Header() {
           <div className="absolute left-0 mt-2 bg-white dark:bg-gray-900 shadow-lg rounded-lg p-2 w-40">
             {user ?  (
               <>
+
+
                 <button
                   className="block w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
                   onClick={() => navigate(`/usuarios/editar/${user}`)}
@@ -64,19 +67,25 @@ export default function Header() {
                     logout();
                     localStorage.removeItem("user");
                     setShowAccountMenu(false);
-                    navigate("/login");
+                    navigate("/");
                   }}
                 >
                   Logout
                 </button>
               </>
             ) : (
-              <button
-                className="block w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                onClick={() => navigate("/login")}
-              >
-                Login
-              </button>
+               <nav className="flex gap-3">
+                    <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
+                      Iniciar Sesión
+                    </button>
+
+                    <button
+                      onClick={openRegister}
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition"
+                    >
+                      Registrarse
+                    </button>
+                  </nav>
             )}
           </div>
         )}
@@ -106,7 +115,7 @@ export default function Header() {
       >
         Jugar
       </button>
-      
+       <ThemeToggleButton />
       </>): (<></>)} 
       {/* ---------- Settings menu ---------- */}
       <div className="relative" ref={setRef}>
@@ -127,13 +136,21 @@ export default function Header() {
             >
               Lista de Cartones
             </button>
-
             <button
               className="block w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-              onClick={() => navigate("/usuarios")}
+              onClick={() => navigate("/grupos")}
             >
-              Usuarios
+              Mis Comunidades
             </button>
+            {esAdmin && (
+              <button
+              className="block w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+              onClick={() => navigate("/grupo/usuarios")}
+            >
+               Usuarios del Grupo
+            </button>
+            )}
+            
           </div>
         )}
       </div>

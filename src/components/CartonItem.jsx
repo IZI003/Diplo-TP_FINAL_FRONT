@@ -6,7 +6,7 @@ export default function CartonItem({ carton, color, drawnNumbers }) {
   const isChecked = seleccionados.some(c => c._id === carton._id);
 
   return (
-    <div
+    <div style={{ backgroundColor: "var(--card-bg)", color: "var(--text-color)" }}
       className={`p-3 border rounded-xl cursor-pointer transition 
       ${isChecked ? "bg-green-200 border-green-600" : "bg-white"}
       `}

@@ -1,4 +1,18 @@
-@import "tailwindcss";
+@import "tailwindcss/preflight";
+@import "tailwindcss/utilities";
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -32,8 +46,6 @@ body {
   min-width: 320px;
   min-height: 100vh;
   width: 100%;
-  background-color: #ffffff;
-  color: #111827; /* text-gray-900 */
   -webkit-font-smoothing: antialiased;
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
 }

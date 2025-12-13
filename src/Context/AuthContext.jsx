@@ -1,27 +1,44 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext();
-
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(() => {
-    const stored = localStorage.getItem("userId");
-    return stored ? JSON.parse(stored) : null;
-  });
+  const [user, setUser] = useState(null);
 
-  // Guardar automáticamente en LocalStorage
+  const login = () => {
+    const token = localStorage.getItem("token");
+    if (!token) return setUser(null);
+
+    try {
+      const decoded = jwtDecode(token);
+      setUser({
+        id: decoded.id,
+        email: decoded.email,
+        role: decoded.role,
+        grupoActivo: decoded.grupoActivo || null,
+      });
+
+      console.log("Token válido",decoded);
+
+    } catch (err) {
+      console.error("Token inválido",err);
+      setUser(null);
+    }
+  };
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+  };
+
   useEffect(() => {
-    if (user) localStorage.setItem("userId", JSON.stringify(user));
-    else localStorage.removeItem("userId");
-  }, [user]);
-
-  const login = (userData) => setUser(userData);
-  const logout = () => setUser(null);
+    login(); // lee el token al cargar la app
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, isAuthenticated: !!user }}>
       {children}
     </AuthContext.Provider>
   );
 };
-
 export const UseAuth = () => useContext(AuthContext);

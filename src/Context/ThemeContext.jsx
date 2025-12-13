@@ -5,15 +5,30 @@ const ThemeContext = createContext();
 export const ThemeProvider = ({ children }) => {
     //si esta guardado en local storage, lo usamos, sino por defecto es false
   const [darkMode, setDarkMode] = useState(() => {
-    return JSON.parse(localStorage.getItem("darkMode")) || [];
+    return JSON.parse(localStorage.getItem("darkMode")) || "light";
   });
-//guardamos en local storage cada vez que cambia darkMode
+ 
   useEffect(() => {
+    if (darkMode === "dark") {
+      document.documentElement.classList.add("dark");
+      document.documentElement.classList.remove("light");
+
+       localStorage.setItem("darkMode", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.add("light");
+
+       localStorage.setItem("darkMode", "light");
+    }
+
     localStorage.setItem("darkMode", JSON.stringify(darkMode));
     document.documentElement.classList.toggle("dark", darkMode);
+
   }, [darkMode]);
 
-  const toggleTheme = () => setDarkMode((prev) => !prev);
+  const toggleTheme = () => {
+    setDarkMode((prev) => (prev === "dark" ? "light" : "dark"));
+  };
 
   return (
     <ThemeContext.Provider value={{ darkMode, toggleTheme }}>
@@ -22,6 +37,5 @@ export const ThemeProvider = ({ children }) => {
   );
 };
 
-export function UseThemeContext() {
-    return useContext(ThemeContext);
-}
+
+export const UseThemeContext = () => useContext(ThemeContext);

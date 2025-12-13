@@ -7,7 +7,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { UseCartones } from "../Context/CartonesContext";
 
-export default function Login() {
+export default function Login({ openRegister }) {
   const { login } = UseAuth();
   const navigate = useNavigate();
         const { getSeleccion } = UseCartones();
@@ -80,6 +80,12 @@ export default function Login() {
         >
           Ingresar
         </button>
+        <button
+                      onClick={openRegister}
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition"
+                    >
+                      Registrarse
+                    </button>
       </form>
     </div>
     <Footer />

@@ -7,7 +7,8 @@ export default function UserForm({ user, setUser, onSubmit }) {
          <Header />
     <form
       onSubmit={onSubmit}
-      className="space-y-4 bg-white p-6 rounded shadow max-w-md mx-auto"
+      className="space-y-4 p-6 rounded shadow max-w-md mx-auto"
+      style={{ backgroundColor: "var(--card-bg)", color: "var(--text-color)" }}
     >
       <div>
         <label className="block font-semibold">Nombre</label>

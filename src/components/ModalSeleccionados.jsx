@@ -8,16 +8,17 @@ export default function ModalSeleccionados({ open, setOpen, userId }) {
   const haySeleccionados = seleccionados.length > 0;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm z-50 flex items-center justify-center">
-      <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-xl w-96 border dark:border-gray-700">
+    <div className= "fixed inset-0 bg-black/30 dark:bg-gray-900/30 backdrop-blur-md z-50 flex items-center justify-center"
+    >
+      <div className=" p-6 rounded-xl shadow-xl w-96 border" style={{ backgroundColor: "var(--card-bg)", color: "var(--text-color)" }}>
 
         {/* Título */}
-        <h2 className="text-xl font-bold text-center dark:text-white">
+        <h2 className="text-xl font-bold text-center" style={{ backgroundColor: "var(--card-bg)", color: "var(--text-color)" }}>
           Cartones Seleccionados
         </h2>
 
         {/* Lista */}
-        <div className="mt-4 space-y-2 max-h-64 overflow-y-auto">
+        <div className="mt-4 space-y-2 max-h-64 overflow-y-auto" style={{ backgroundColor: "var(--card-bg)", color: "var(--text-color)" }}>
           {!haySeleccionados ? (
             <p className="text-center text-gray-500 dark:text-gray-400">
               Ningún cartón seleccionado

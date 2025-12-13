@@ -1,8 +1,8 @@
 /* Estilos para modo claro (default) */
 :root {
   /* Modo claro (por defecto) */
-  --bg-color: #ffffff;
-  --text-color: #111111;
+  --bg-color: #f5f8f7;
+  --text-color: #019863;
   --card-bg: #ebe7e7;
   --accent-color: #4f46e5; /* Indigo */
   --hover: #beafaf;
@@ -10,7 +10,7 @@
 
 .dark {
   /* Modo oscuro */
-  --bg-color: #111827;
+  --bg-color: #0f231c;
   --text-color: #f3f4f6;
   --card-bg: #1f2937;
   --accent-color: #6366f1;

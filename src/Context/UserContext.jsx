@@ -35,6 +35,7 @@ export const UserProvider = ({ children }) => {
 
   // UPDATE USER
   const updateUser = async (id, user) => {
+    
     try {
       await apiUsers.put(`/${id}`, user);
       toast.success("Usuario actualizado");

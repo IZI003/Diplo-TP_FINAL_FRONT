@@ -1,21 +1,24 @@
 import React from "react";
+import { useBingo } from "../Context/BingoContext";
 
-export default function Cartones({ cartones = [], drawnNumbers = [] }) {
+export default function Cartones({ cartones = []}) 
+{
   const colores = [
     { border: "border-blue-500", header: "text-blue-700" },
     { border: "border-red-500", header: "text-red-700" },
     { border: "border-green-500", header: "text-green-700" },
     { border: "border-yellow-500", header: "text-yellow-600" },
   ];
+  const { bolillas } = useBingo();
 
   return (
-    <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1">
+    <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1" style={{ backgroundColor: "var(--bg-color)", color: "var(--text-color)" }}>
       {cartones.map((carton, idx) => {
         const color = colores[idx % colores.length];
         return (
           <div
             key={carton.id}
-            className={`p-4 rounded-lg shadow-md bg-white dark:bg-gray-800 border-2 ${color.border}`}
+            className="p-4 rounded-lg shadow-md bg-white dark:bg-gray-800 border-2" style={{ backgroundColor: "var(--card-bg)", color: "var(--text-color)" }}
           >
             {/* Código del cartón */}
             <div className={`mb-2 font-bold ${color.header}`}>
@@ -29,7 +32,7 @@ export default function Cartones({ cartones = [], drawnNumbers = [] }) {
                   {carton.numeros.map((fila, rowIdx) => (
                     <tr key={rowIdx}>
                       {fila.map((num, colIdx) => {
-                        const marcado = drawnNumbers.includes(num);
+                        const marcado = bolillas.includes(num);
                         return (
                           <td
                             key={colIdx}
