@@ -79,6 +79,7 @@ VITE_SOCKET_URL=http://localhost:4000
 ⚠️ En producción, estas variables deben estar embebidas al momento del build.
 
 📁 Estructura general
+
 src/
 ├── Context/        # Contextos globales (Auth, Socket, User, etc.)
 ├── socket/         # Configuración de Socket.IO
