@@ -1,16 +1,108 @@
-# React + Vite
+🎰 Bingo – Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend del sistema Bingo, desarrollado con React + Vite, orientado a una experiencia moderna, rápida y en tiempo real, con comunicación vía Socket.IO y una interfaz responsive construida con Tailwind CSS.
 
-Currently, two official plugins are available:
+🚀 Tecnologías utilizadas
+⚛️ Framework y herramientas base
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+React 19 – Biblioteca principal para la construcción de la interfaz.
 
-## React Compiler
+Vite – Bundler y entorno de desarrollo rápido.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+JavaScript (ES Modules) – Proyecto configurado con "type": "module".
 
-## Expanding the ESLint configuration
+🎨 Estilos y UI
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Tailwind CSS 4 – Framework de estilos utility-first.
+
+PostCSS – Procesamiento de estilos.
+
+Autoprefixer – Compatibilidad entre navegadores.
+
+Framer Motion / Motion – Animaciones y transiciones.
+
+React Spinners – Indicadores de carga.
+
+🔀 Navegación
+
+React Router DOM v7 – Manejo de rutas y navegación en la aplicación.
+
+🔐 Autenticación y estado
+
+JWT Decode – Decodificación de tokens JWT.
+
+Context API – Manejo de estado global (Auth, Usuario, Socket, etc.).
+
+🌐 Comunicación con Backend
+
+Axios – Cliente HTTP para consumir la API REST.
+
+Socket.IO Client – Comunicación en tiempo real con el backend.
+
+🔔 Notificaciones y alertas
+
+SweetAlert2 – Alertas modales.
+
+@sweetalert2/ngx-sweetalert2 – Integración avanzada.
+
+React Toastify – Notificaciones tipo toast.
+
+🧹 Calidad de código
+
+ESLint – Análisis estático de código.
+
+eslint-plugin-react-hooks
+
+eslint-plugin-react-refresh
+
+📦 Scripts disponibles
+# Desarrollo
+npm run dev
+
+# Build de producción
+npm run build
+
+# Preview del build
+npm run preview
+
+# Linter
+npm run lint
+
+⚙️ Variables de entorno
+
+El frontend utiliza variables de entorno definidas en archivos .env compatibles con Vite:
+
+VITE_API_URL=http://localhost:4000/api
+VITE_SOCKET_URL=http://localhost:4000
+
+
+⚠️ En producción, estas variables deben estar embebidas al momento del build.
+
+📁 Estructura general
+src/
+├── Context/        # Contextos globales (Auth, Socket, User, etc.)
+├── socket/         # Configuración de Socket.IO
+├── components/     # Componentes reutilizables
+├── pages/          # Vistas principales
+├── App.jsx
+└── main.jsx
+
+🧩 Funcionalidades principales
+
+Autenticación con JWT
+
+Comunicación en tiempo real con Socket.IO
+
+Navegación SPA
+
+UI responsive
+
+Manejo global de estado
+
+Animaciones fluidas
+
+Alertas y notificaciones
+
+📌 Estado del proyecto
+
+🟢 En desarrollo / producción activa
