@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useState } from "rea
 import api from "./api";
 import Swal from "sweetalert2";
 import { UseAuth } from "./AuthContext";
+import { toast } from "react-toastify";
 
 const CartonesContext = createContext();
 
@@ -40,7 +41,7 @@ const userId = user?.id;
       }
 
     } catch (e) {
-      console.error("Error cargando selección previa:", e);
+      toast.error("Error cargando selección previa", e);
     }
   }, [userId]);
 
@@ -93,7 +94,7 @@ useEffect(() => {
         totalPages: data.totalPages
       });
     } catch (e) {
-      console.error("Error obteniendo cartones:", e);
+      toast.error("Error cargando cartones", e);
     } finally {
       setLoading(false);
     }

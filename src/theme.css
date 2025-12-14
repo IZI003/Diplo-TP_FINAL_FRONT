@@ -39,3 +39,6 @@ button {
 button:hover {
   opacity: 0.9;
 }
+.landing-page {
+    background: linear-gradient(to bottom, #f8fafc, #e2e8f0);
+}

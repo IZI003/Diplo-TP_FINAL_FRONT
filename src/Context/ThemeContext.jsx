@@ -3,7 +3,6 @@ import { useState, useEffect,createContext, useContext } from "react";
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-    //si esta guardado en local storage, lo usamos, sino por defecto es false
   const [darkMode, setDarkMode] = useState(() => {
     return JSON.parse(localStorage.getItem("darkMode")) || "light";
   });
@@ -36,6 +35,5 @@ export const ThemeProvider = ({ children }) => {
     </ThemeContext.Provider>
   );
 };
-
 
 export const UseThemeContext = () => useContext(ThemeContext);

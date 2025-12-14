@@ -54,13 +54,15 @@ export default function GroupsList() {
             {grupos.map((g) => (
               <div
                 key={g._id}
-                className="p-4 bg-white shadow rounded flex justify-between items-center"
+                className="p-4 text-gray-500 shadow rounded flex justify-between items-center"
+                            style={{ backgroundColor: "var(--card-bg)", color: "var(--text-color)" }}
+
               >
                 <div>
                   <p className="font-bold text-lg">{g.nombre}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-lg">
                     Administrador: {g.admin.nombre}
                   </p>
                 </div>

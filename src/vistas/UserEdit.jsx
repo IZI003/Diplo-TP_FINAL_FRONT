@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import UserForm from "./UserForm";
 import { UseUsers } from "../Context/UserContext";
 
 export default function UserEdit() {
   const { id } = useParams();
-  const navigate = useNavigate();
   const { users, updateUser } = UseUsers();
 
   const existing = users.find(u => u._id === id);
@@ -15,7 +14,6 @@ export default function UserEdit() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await updateUser(id, user);
-    navigate("/usuarios");
   };
 
   useEffect(() => {

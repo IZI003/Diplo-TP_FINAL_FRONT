@@ -4,6 +4,7 @@ import api from "./api";
 import { UseAuth } from "./AuthContext";
 import Swal from "sweetalert2";
 import { BingoContext } from "./BingoContext";
+import { toast } from "react-toastify";
 
 export const BingoProvider = ({ children }) => {
   const socket = UseSocketContext();
@@ -25,12 +26,8 @@ export const BingoProvider = ({ children }) => {
     const groupId = user.grupoActivo._id;
 
     socket.emit("joinGroup", groupId);
-
-    console.log("🔗 Uniendo al grupo:", groupId);
-
     // Escuchar bolilla en tiempo real
     socket.on("bolillaGenerada", (data) => {
-      console.log("🎱 Nueva bolilla recibida", data);
 
       setUltimaBolilla(data.numero);
       setBolillas(data.numerosSalidos);
@@ -61,7 +58,7 @@ export const BingoProvider = ({ children }) => {
       setBolillas(data.numerosSalidos || []);
       setUltimaBolilla(data.numerosSalidos?.slice(-1)[0] || null);
     } catch (error) {
-      console.error("Error obteniendo estado actual:", error);
+      toast.error("Error obteniendo estado actual:", error);
     }
   };
 

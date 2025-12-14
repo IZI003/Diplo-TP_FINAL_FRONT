@@ -37,9 +37,15 @@ export const UserProvider = ({ children }) => {
   const updateUser = async (id, user) => {
     
     try {
-      await apiUsers.put(`/${id}`, user);
-      toast.success("Usuario actualizado");
+      const usuario= await apiUsers.put(`/${id}`, user);
+      if(!usuario){
+        toast.error("Usuario no encontrado");
+        return;
+      }else{
+        toast.success("Usuario actualizado");
       getUsers();
+        return;
+      }
     } catch (error) {
       toast.error("Error actualizando", error);
     }
@@ -69,6 +75,7 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     getUsers();
   }, []);
+    
 
   return (
     <UserContext.Provider

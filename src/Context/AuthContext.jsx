@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
+import { toast } from "react-toastify";
 
 const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
@@ -18,10 +19,9 @@ export const AuthProvider = ({ children }) => {
         grupoActivo: decoded.grupoActivo || null,
       });
 
-      console.log("Token válido",decoded);
-
     } catch (err) {
-      console.error("Token inválido",err);
+      toast.error("Token inválido, por favor inicie sesión nuevamente", err);
+      localStorage.removeItem("token");
       setUser(null);
     }
   };

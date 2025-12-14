@@ -4,6 +4,7 @@ import { useBingo } from '../Context/BingoContext';
 export default function Bolillero() {
   const { bolillas, ultimaBolilla, pedirBolilla } = useBingo();
   const { user } = UseAuth();
+  
       const esAdmin = user?.grupoActivo?.admin?._id === user?.id;
   const buckets = Array.from({ length: 9 }, () => []);
 

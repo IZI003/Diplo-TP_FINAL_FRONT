@@ -13,10 +13,10 @@ const SeleccionarCartones = () => {
     // Simula un tiempo mínimo de carga (por ejemplo, 1 segundo)
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 3000);
+    }, loading);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [loading]);
 
   if (loading) {
     return (

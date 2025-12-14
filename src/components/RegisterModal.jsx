@@ -43,9 +43,6 @@ export default function RegisterModal({ open, setOpen, setOpenlogin }) {
         navigate("/jugar");
         // cerrar modal
         setOpen(false);
-
-        
-
       }
       else {
         toast.error("Error al registrarse");
@@ -61,7 +58,7 @@ export default function RegisterModal({ open, setOpen, setOpenlogin }) {
     <AnimatePresence>
       {open && (
         <motion.div
-      className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
+      className="fixed inset-0 flex items-center justify-center z-50"
       style={{
         backdropFilter: "blur(8px)",
         WebkitBackdropFilter: "blur(8px)"
@@ -76,12 +73,15 @@ export default function RegisterModal({ open, setOpen, setOpenlogin }) {
         exit={{ scale: 0.7, opacity: 0 }}
         transition={{ duration: 0.3 }}
         className="p-8 rounded-xl w-96 shadow-xl"
-        style={{ backgroundColor: "var(--bg-color)", color: "var(--text-color)" }}
+          style={{ backgroundColor: "var(--bg-color)", color: "var(--text-color)" }}
+
       >
             <h2 className="text-2xl font-bold mb-4">Crear Cuenta</h2>
 
-             <form onSubmit={handleSubmit} className="space-y-4" 
-             style={{ backgroundColor: "var(--bg-color)", color: "var(--text-color)" }}
+             <form onSubmit={handleSubmit} className="space-y-4"
+          style={{ backgroundColor: "var(--bg-color)", color: "var(--text-color)" }}
+
+             
              >
 
               <input 
@@ -91,7 +91,9 @@ export default function RegisterModal({ open, setOpen, setOpenlogin }) {
 
                 value={form.nombre}
                 onChange={handleChange}
-                className="w-full p-3 border rounded-lg border-green-400 " style={{ color: "var(--text-color)" }}
+                className="w-full p-3 border rounded-lg border-green-400 "
+          style={{ backgroundColor: "var(--bg-color)", color: "var(--text-color)" }}
+
               />
 
               <input 
@@ -100,7 +102,9 @@ export default function RegisterModal({ open, setOpen, setOpenlogin }) {
                 name="email"
                 value={form.email}
                 onChange={handleChange}
-                className="w-full p-3 border rounded-lg  border-green-400 " style={{ color: "var(--text-color)" }}
+                className="w-full p-3 border rounded-lg  border-green-400 "
+          style={{ backgroundColor: "var(--bg-color)", color: "var(--text-color)" }}
+
               />
 
               <input 
@@ -109,7 +113,9 @@ export default function RegisterModal({ open, setOpen, setOpenlogin }) {
                 placeholder="Contraseña"
                 value={form.password}
                 onChange={handleChange}
-                className="w-full p-3 border rounded-lg  border-green-400 " style={{ color: "var(--text-color)" }}
+                className="w-full p-3 border rounded-lg  border-green-400 "
+          style={{ backgroundColor: "var(--bg-color)", color: "var(--text-color)" }}
+
               />
 
               <button className="w-full  text-white p-3 m-2 rounded-lg">
@@ -131,6 +137,8 @@ export default function RegisterModal({ open, setOpen, setOpenlogin }) {
                   setOpenlogin(true);
                 }}
                 className="text-blue-600 hover:underline"
+          style={{ backgroundColor: "var(--bg-color)", color: "var(--text-color)" }}
+
               >
                 ¿Ya tienes una cuenta? Iniciar sesión
               </button>

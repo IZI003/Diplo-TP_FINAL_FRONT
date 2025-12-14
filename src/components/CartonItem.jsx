@@ -2,7 +2,6 @@ import { UseCartones } from "../Context/CartonesContext";
 
 export default function CartonItem({ carton, color, drawnNumbers }) {
   const { seleccionados, toggleSeleccion } = UseCartones();
-
   const isChecked = seleccionados.some(c => c._id === carton._id);
 
   return (

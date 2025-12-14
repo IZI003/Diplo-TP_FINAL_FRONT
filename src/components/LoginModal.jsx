@@ -111,13 +111,14 @@ export default function LoginModal({ open, setOpen, setOpenRegister  }) {
             >
               Cancelar
             </button>
-            <div className="text-center mt-4">
+            <div className="text-center mt-4 text-blue-600 p-3 rounded-lg">
               <button
                 onClick={() => {
                   setOpen(false);
                   setOpenRegister(true);
                 }}
-                className="text-blue-600 hover:underline"
+                          style={{ backgroundColor: "var(--bg-color)", color: "var(--text-color)" }}
+
               >
                 ¿No tenés cuenta? Crear una cuenta
               </button>

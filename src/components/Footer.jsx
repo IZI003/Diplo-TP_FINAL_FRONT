@@ -1,9 +1,11 @@
-import {ico} from '../assets/ico.png';
+import ico from '../assets/ico.png';
 
 const Footer = () => {
   return (
             <footer 
-            className="bg-white/90 border-b border-white/10 text-black py-6 mt-10 text-center">
+            className="border-b border-white/10 py-6 mt-10 text-center"
+          style={{ backgroundColor: "var(--card-bg)", color: "var(--text-color)" }}
+            >
                 <p className="text-sm">Diplomatura en Progrmacion web con JAVASCRIPT, NODO Catamarca, TRABAJO FINAL</p>
                 <p className="text-sm">&copy; 2025. Todos los derechos reservados.</p>
                 

@@ -13,10 +13,7 @@ export default function Header({ openRegister }) {
   // Estados para los menús
   const [showAccountMenu, setShowAccountMenu] = useState(false);
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
-const esAdmin = user?.grupoActivo?.admin?._id === user?.id;
-  // Detectar si hay usuario en localStorage
-
-  
+  const esAdmin = user?.grupoActivo?.admin?._id === user?.id;
   // Cerrar menús cuando se hace click fuera
   const accRef = useRef(null);
   const setRef = useRef(null);
@@ -56,7 +53,7 @@ const esAdmin = user?.grupoActivo?.admin?._id === user?.id;
 
                 <button
                   className="block w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                  onClick={() => navigate(`/usuarios/editar/${user}`)}
+                  onClick={() => navigate(`/usuarios/editar/${user?.id}`)}
                 >
                   Perfil
                 </button>

@@ -4,32 +4,36 @@ import api from "../Context/api";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Swal from "sweetalert2";
-import { Link } from "react-router-dom";
 import InvitarUsuarioModal from "../components/InvitarUsuarioModal";
+import { UseGroups } from "../Context/GroupContext";
+import { toast } from "react-toastify";
 
 export default function GrupoUsuarios() {
-  const { user } = UseAuth();
-  const grupoActivo = user?.grupoActivo;
-  const esAdmin = grupoActivo?.admin?._id === user?.id;
+  const {userActual, getUserActual, grupoActivo} = UseGroups();
+
+  const grupoActivo_objeto = userActual?.user?.grupoActivo;
+  const userId = userActual?.user?._id;
+  
+  const esAdmin = grupoActivo_objeto?.admin?._id === userId;
 
   const [usuarios, setUsuarios] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
 
   useEffect(() => {
-    if (!grupoActivo || !esAdmin) return;
-
+    
+    if (!grupoActivo_objeto || !esAdmin) return;
     const fetchUsuarios = async () => {
       try {
-        const { data } = await api.get(`/grupos/${grupoActivo._id}/usuarios`);
+        const { data } = await api.get(`/grupos/${grupoActivo_objeto?._id}/usuarios`);
         setUsuarios(data);
       } catch (error) {
-        console.error("Error obteniendo usuarios del grupo", error);
+        toast.error("Error obteniendo usuarios del grupo", error);
       }
     };
 
     fetchUsuarios();
-  }, [grupoActivo, esAdmin]);
+  }, [grupoActivo_objeto, esAdmin, getUserActual, grupoActivo]);
 
   const eliminar = async (id) => {
     const res = await Swal.fire({
@@ -43,10 +47,10 @@ export default function GrupoUsuarios() {
     if (!res.isConfirmed) return;
 
     try {
-      await api.delete(`/grupos/${grupoActivo._id}/usuarios/${id}`);
+      await api.delete(`/grupos/${grupoActivo_objeto._id}/usuarios/${id}`);
       setUsuarios((u) => u.filter((x) => x._id !== id));
     } catch (error) {
-      console.error(error);
+      toast.error("Error eliminando usuario del grupo", error);
     }
   };
 
@@ -69,19 +73,27 @@ export default function GrupoUsuarios() {
               Invitar Usuario
             </button>
           )}
-      <div className="p-6">
-        <h1 className="text-2xl font-bold mb-4">
-          Usuarios del Grupo: {grupoActivo?.nombre}
+      <div className="p-6" 
+            style={{ backgroundColor: "var(--card-bg)", color: "var(--text-color)" }}
+        >
+        <h1 className="text-2xl font-bold mb-4"
+        
+        >
+          Usuarios del Grupo: {grupoActivo_objeto?.nombre}
         </h1>
 
         {usuarios.length === 0 ? (
           <p>No hay usuarios en este grupo</p>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-3"
+          
+          >
             {usuarios.map((u) => (
               <div
                 key={u._id}
-                className="p-4 bg-white shadow rounded flex justify-between"
+                className="p-4 shadow rounded flex justify-between"
+            style={{ backgroundColor: "var(--card-bg)", color: "var(--text-color)" }}
+
               >
                 <div>
                   <p className="font-bold">{u.nombre}</p>
@@ -89,7 +101,7 @@ export default function GrupoUsuarios() {
                 </div>
 
                 {/* No eliminarse a sí mismo */}
-                {u._id !== user._id && (
+                {u._id !== userId && (
                   <button
                     onClick={() => eliminar(u._id)}
                     className="px-3 py-1 bg-red-600 text-white rounded"
@@ -105,7 +117,7 @@ export default function GrupoUsuarios() {
       
       {showModal && (
         <InvitarUsuarioModal
-          grupoId={grupoActivo}
+          grupoId={grupoActivo_objeto}
           onClose={() => setShowModal(false)}
         />
       )}

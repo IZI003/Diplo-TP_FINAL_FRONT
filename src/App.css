@@ -7,6 +7,7 @@ body {
   background-color: #f5f8f7; /* o la clase bg-background-light en el html */
   color: black;
 }
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -21,13 +22,6 @@ body {
 .read-the-docs {
   color: #888;
 }
-
-/*:root {
---primary: #019863;
---bg-light: #f5f8f7;
---bg-dark: #0f231c;
-}*/
-
 
 body {
 font-family: 'Spline Sans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
@@ -54,18 +48,17 @@ font-family: 'Spline Sans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helve
 }
 .light
 {
-  /* Modo claro (por defecto) 
-  --bg-color: #f5f8f7;
-  --text-color: #019863;
-  --card-bg: #d1c9c9;
-  --accent-color: #019863; 
-  --hover: #beafaf;*/
-
    --bg-color: #f5f8f7;       /* Fondo claro */
   --text-color: #019863;     /* Verde principal */
   --card-bg: #ffffff;        /* Blanco limpio */
   --accent-color: #019863;   /* Verde corporativo */
   --hover: #e5e7eb;          /* Gris claro */
+}
+
+.landing-theme {
+  --bg-color: #f5f8f7;
+  --text-color: #019863;
+  --card-bg: #ebe7e7;
 }
 body {
   background-color: var(--bg-color);

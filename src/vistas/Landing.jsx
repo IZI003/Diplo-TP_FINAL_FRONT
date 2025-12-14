@@ -18,6 +18,18 @@ export default function Landing() {
       setModalOpenlogin(true);
     }
   }, []);
+
+  useEffect(() => {
+    document.body.classList.remove("dark");
+    document.body.classList.remove("light");
+    document.body.classList.add("landing-theme");
+
+    return () => {
+      // cuando salís de la landing, el tema vuelve
+    document.body.classList.remove("landing-theme");
+    };
+  }, []);
+
   return (
     <>
       <Navbar onRegister={() => setModalOpen(true)} onLoginOpen={() => setModalOpenlogin(true)}/>

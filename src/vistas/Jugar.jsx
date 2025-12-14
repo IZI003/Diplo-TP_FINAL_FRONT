@@ -11,16 +11,15 @@ import { UseCartones } from "../Context/CartonesContext";
 const Jugar = () => {
   const { darkMode } = UseThemeContext();
   const [loading, setLoading] = useState(true);
-    const { seleccionados } = UseCartones();
+  const { seleccionados } = UseCartones();
 
     useEffect(() => {
-    // Simula un tiempo mínimo de carga (por ejemplo, 1 segundo)
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, loading);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [loading]);
 
   if (loading) {
     return (

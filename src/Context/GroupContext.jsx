@@ -1,15 +1,30 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import api from "../Context/api";
+import api, { apiUsers } from "../Context/api";
 import { UseAuth } from "../Context/AuthContext";
+import { toast } from "react-toastify";
 
 const GroupContext = createContext();
 
 export const GroupProvider = ({ children }) => {
   const { user } = UseAuth();
-
   const [grupos, setGrupos] = useState([]);
   const [grupoActivo, setGrupoActivo] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [userActual, setUserActual] = useState(null);
+
+  const getUserActual = async () => {
+    if (!user?.id) return;
+  
+    try {
+      setLoading(true);
+      const { data } = await apiUsers.get(`/${user.id}`);
+      setUserActual(data); // 👈 NO data.items
+    } catch (error) {
+      toast.error("Error cargando usuario actual ", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // 🔥 cargar lista de grupos del usuario
   const fetchGrupos = async () => {
@@ -18,7 +33,7 @@ export const GroupProvider = ({ children }) => {
       setGrupos(data.grupos);
       setGrupoActivo(data.grupoActivo);
     } catch (err) {
-      console.error("Error cargando grupos:", err);
+      toast.error("Error cargando grupos", err);
     } finally {
       setLoading(false);
     }
@@ -30,7 +45,7 @@ export const GroupProvider = ({ children }) => {
       const { data } = await api.put(`/grupos/activar/${user.id}/${groupId}`);
       setGrupoActivo(data.groupId || data.grupoActivo);
     } catch (err) {
-      console.error("Error activando grupo:", err);
+      toast.error("Error activando grupo", err);
     }
   };
 
@@ -47,14 +62,18 @@ export const GroupProvider = ({ children }) => {
 
       return data;
     } catch (err) {
-      console.error("Error creando grupo:", err);
+      toast.error("Error creando grupo", err);
       throw err;
     }
   };
 
   useEffect(() => {
-    if (user?.id) fetchGrupos();
-  }, [user]);
+    if (user?.id) 
+      {
+        fetchGrupos();
+        getUserActual();
+        }
+  }, [user?.id, grupoActivo]);
 
   return (
     <GroupContext.Provider
@@ -65,6 +84,8 @@ export const GroupProvider = ({ children }) => {
         activarGrupo,
         crearGrupo,
         fetchGrupos,
+        getUserActual,
+        userActual,
       }}
     >
       {children}
