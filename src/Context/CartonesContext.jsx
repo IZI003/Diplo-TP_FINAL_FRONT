@@ -83,6 +83,8 @@ useEffect(() => {
   };
 
   const getCartones = async (page = 1, limit = 20) => {
+  if (!userId) return;
+
     setLoading(true);
     try {
       const { data } = await api.get(`/bingo/generar?page=${page}&limit=${limit}`);

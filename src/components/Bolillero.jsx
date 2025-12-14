@@ -1,11 +1,12 @@
-import { UseAuth } from '../Context/AuthContext';
 import { useBingo } from '../Context/BingoContext';
+import { UseGroups } from '../Context/GroupContext';
 
 export default function Bolillero() {
-  const { bolillas, ultimaBolilla, pedirBolilla } = useBingo();
-  const { user } = UseAuth();
-  
-      const esAdmin = user?.grupoActivo?.admin?._id === user?.id;
+  const {userActual } = UseGroups();
+  const { bolillas, ultimaBolilla, pedirBolilla } = useBingo(userActual);
+
+  const esAdmin =userActual?.user?.grupoActivo?.admin?._id === userActual?.user?._id;
+
   const buckets = Array.from({ length: 9 }, () => []);
 
   bolillas.forEach(n => {
@@ -23,7 +24,7 @@ export default function Bolillero() {
   // =====================================================
   return (
     <div className="p-4" style={{ backgroundColor: "var(--card-bg)", color: "var(--text-color)" }}>
-      <h1 className="text-7xl font-bold mb-3 text-primary">Bolillero</h1>
+      <h1 className="text-7xl font-bold mb-3 text-primary">Bolillero de {userActual?.user?.grupoActivo.nombre}</h1>
 
       <div className="rounded-xl shadow-lg p-3 sm:p-4 overflow-x-auto">
         

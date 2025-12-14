@@ -66,21 +66,25 @@ export default function GrupoUsuarios() {
     <>
       <Header />
       {esAdmin && (
-            <button
-              onClick={() => setShowModal(true)}
-              className="px-4 py-2 bg-green-600 text-white rounded"
-            >
-              Invitar Usuario
-            </button>
+      <div className="justify-between items-center mb-5 ">
+                <div className="text-center w-full">
+                      <h1 className="text-5xl font-bold"> Usuarios del Grupo: {grupoActivo_objeto?.nombre}</h1>
+                </div>
+            <div className="">
+                <button
+                    onClick={() => setShowModal(true)}
+                    className="px-4 py-2 bg-green-600 text-white rounded"
+                  >
+                    Invitar Usuario
+                  </button>
+              </div>
+              </div>
+
+            
           )}
       <div className="p-6" 
             style={{ backgroundColor: "var(--card-bg)", color: "var(--text-color)" }}
         >
-        <h1 className="text-2xl font-bold mb-4"
-        
-        >
-          Usuarios del Grupo: {grupoActivo_objeto?.nombre}
-        </h1>
 
         {usuarios.length === 0 ? (
           <p>No hay usuarios en este grupo</p>

@@ -114,3 +114,5 @@ Alertas y notificaciones
 📌 Estado del proyecto
 
 🟢 En desarrollo / producción activa
+
+En Produccion puedes ingresar a http://190.228.131.42:5173/

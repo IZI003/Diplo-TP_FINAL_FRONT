@@ -19,13 +19,13 @@ export default function Cartones({ cartones = [] }) {
 
         return (
           <div
-            key={carton.id}
+            key={carton._id}
             className="p-4 rounded-lg shadow-md border-2"
             style={{ backgroundColor: "var(--card-bg)", color: "var(--text-color)" }}
           >
             {/* Código */}
             <div className={`mb-2 font-bold ${color.header}`}>
-              Código: {carton.codigo}
+              {carton.codigo}
             </div>
 
             {/* Tabla */}

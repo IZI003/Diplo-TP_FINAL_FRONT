@@ -27,7 +27,8 @@ export default function ModalSeleccionados({ open, setOpen, userId }) {
             seleccionados.map((c) => (
               <div
                 key={c._id}
-                className="p-2 border rounded dark:border-gray-700 dark:text-white"
+                className="p-2 border rounded"
+                style={{ backgroundColor: "var(--card-bg)", color: "var(--text-color)" }}
               >
                 {c.codigo || `Cartón ${c._id}`}
               </div>

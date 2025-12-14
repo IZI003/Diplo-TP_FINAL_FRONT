@@ -5,11 +5,15 @@ import { UseThemeContext } from "../Context/ThemeContext";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ListaCartones from "../components/ListaCartones";
+import { UseCartones } from "../Context/CartonesContext";
 
 const SeleccionarCartones = () => {
   const { darkMode } = UseThemeContext();
   const [loading, setLoading] = useState(true);
+  const{getCartones}=UseCartones();
+  
   useEffect(() => {
+    getCartones();
     // Simula un tiempo mínimo de carga (por ejemplo, 1 segundo)
     const timer = setTimeout(() => {
       setLoading(false);

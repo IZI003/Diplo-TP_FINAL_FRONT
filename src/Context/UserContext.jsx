@@ -1,16 +1,20 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { apiUsers } from "./api";
+import { UseAuth } from "./AuthContext";
 
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
+  const { user } = UseAuth();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
 
   // GET ALL USERS
   const getUsers = async () => {
+    if (!user?.id) return;
+
     try {
       setLoading(true);
       const { data } = await apiUsers.get("/");
@@ -72,10 +76,6 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    getUsers();
-  }, []);
-    
 
   return (
     <UserContext.Provider

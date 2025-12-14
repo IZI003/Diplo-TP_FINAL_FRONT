@@ -36,8 +36,11 @@ export default function GroupsList() {
       <Header />
 
       <div className="p-6">
-        <div className="flex justify-between items-center mb-5">
-          <h1 className="text-2xl font-bold">Mis Comunidades</h1>
+        <div className="flex justify-between items-center mb-5 ">
+          <div className="text-center w-full">
+          <h1 className="text-5xl font-bold">Mis Comunidades</h1>
+          </div>
+        </div>
 
           <button
               onClick={openCrearGrupoModal}
@@ -45,8 +48,6 @@ export default function GroupsList() {
             >
               Crear Comunidad
             </button>
-        </div>
-
         {loading ? (
           <p>Cargando...</p>
         ) : (

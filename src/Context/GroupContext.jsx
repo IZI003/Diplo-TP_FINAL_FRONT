@@ -28,6 +28,8 @@ export const GroupProvider = ({ children }) => {
 
   // 🔥 cargar lista de grupos del usuario
   const fetchGrupos = async () => {
+    if (!user?.id) return;
+
     try {
       const { data } = await api.get(`/grupos/${user.id}`);
       setGrupos(data.grupos);
@@ -41,6 +43,9 @@ export const GroupProvider = ({ children }) => {
 
   // 🔥 activar grupo
   const activarGrupo = async (groupId) => {
+    if (!user?.id) return;
+    if (!groupId) return;
+
     try {
       const { data } = await api.put(`/grupos/activar/${user.id}/${groupId}`);
       setGrupoActivo(data.groupId || data.grupoActivo);

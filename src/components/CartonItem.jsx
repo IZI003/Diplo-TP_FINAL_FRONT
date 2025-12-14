@@ -12,7 +12,7 @@ export default function CartonItem({ carton, color, drawnNumbers }) {
       onClick={() => toggleSeleccion(carton)}
     >
       <div className="flex justify-between items-center mb-2">
-        <h2 className="font-bold">Cartón {carton.codigo}</h2>
+        <h2 className="font-bold">{carton.codigo}</h2>
         <input
           type="checkbox"
           checked={isChecked}

@@ -1,20 +1,22 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import ModalSeleccionados from "./ModalSeleccionados";
 import { UseAuth } from "../Context/AuthContext";
+import ModalSeleccionados from "./ModalSeleccionados";
 import ThemeToggleButton from "./ThemeToggleButton";
+import { motion } from "framer-motion";
+import { UseThemeContext } from "../Context/ThemeContext";
 
 export default function Header({ openRegister }) {
   const navigate = useNavigate();
- const { user, logout } = UseAuth();   // <-- AHORA EL HEADER VE EL USUARIO
+  const { user, logout } = UseAuth();
+ const {darkMode, toggleTheme } = UseThemeContext();
 
   const [openModalSeleccionados, setOpenModalSeleccionados] = useState(false);
-
-  // Estados para los menús
   const [showAccountMenu, setShowAccountMenu] = useState(false);
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
+
   const esAdmin = user?.grupoActivo?.admin?._id === user?.id;
-  // Cerrar menús cuando se hace click fuera
+
   const accRef = useRef(null);
   const setRef = useRef(null);
 
@@ -32,28 +34,26 @@ export default function Header({ openRegister }) {
   }, []);
 
   return (
-    <header className="flex justify-between items-center p-4 bg-gray-200 dark:bg-gray-800" style={{ backgroundColor: "var(--card-bg)", color: "var(--text-color)" }} >
-
-      {/* ---------- Botón Account Circle (Login / Logout / Perfil) ---------- */}
+    <header
+      className="flex justify-between items-center p-4"
+      style={{ backgroundColor: "var(--card-bg)", color: "var(--text-color)" }}
+    >
+      {/* ---------------- Cuenta ---------------- */}
       <div className="relative" ref={accRef}>
         <button
           className="rounded-xl h-10 w-10 hover:bg-gray-300 dark:hover:bg-gray-700 flex items-center justify-center"
           onClick={() => setShowAccountMenu(!showAccountMenu)}
         >
-          <span className="material-symbols-outlined text-gray-800 dark:text-white">
-            account_circle
-          </span>
+          <span className="material-symbols-outlined">account_circle</span>
         </button>
 
         {showAccountMenu && (
-          <div className="absolute left-0 mt-2 bg-white dark:bg-gray-900 shadow-lg rounded-lg p-2 w-40">
-            {user ?  (
+          <div className="absolute left-0 mt-2 bg-white dark:bg-gray-900 shadow-lg rounded-lg p-2 w-44 z-50">
+            {user ? (
               <>
-
-
                 <button
                   className="block w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                  onClick={() => navigate(`/usuarios/editar/${user?.id}`)}
+                  onClick={() => navigate(`/usuarios/editar/${user.id}`)}
                 >
                   Perfil
                 </button>
@@ -62,95 +62,180 @@ export default function Header({ openRegister }) {
                   className="block w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
                   onClick={() => {
                     logout();
-                    localStorage.removeItem("user");
-                    setShowAccountMenu(false);
                     navigate("/");
                   }}
                 >
                   Logout
                 </button>
+
+                {/* ---- SOLO MOBILE ---- */}
+                 <div className="block md:hidden border-t mt-1">
+                  <div className="flex">
+                    <button
+                      className="w-full justify-baseline p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                       onClick={toggleTheme}
+                    >
+                      <div className="flex justify-between items-center w-full">
+                      Tema
+                      <span className="text-right">
+                      {darkMode === "light" ? (
+                        <span className="material-symbols-outlined">dark_mode</span>
+                      ) : (
+                        <span className="material-symbols-outlined">light_mode</span>
+                      )}
+                      </span>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              
               </>
             ) : (
-               <nav className="flex gap-3">
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
-                      Iniciar Sesión
-                    </button>
-
-                    <button
-                      onClick={openRegister}
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition"
-                    >
-                      Registrarse
-                    </button>
-                  </nav>
-            )}
-          </div>
-        )}
-      </div>
-
-      {/* ---------- Titulo ---------- */}
-      <h1 className="text-xl font-bold dark:text-white">Bingo Bash</h1>
-
-      {/* ---------- Ver seleccionados ---------- */}
-       {user ?  (
               <>
-      <button
-        className="rounded-xl px-3 py-2 hover:bg-gray-300 dark:hover:bg-gray-700 flex items-center justify-center"
-        onClick={() => setOpenModalSeleccionados(true)}
-      >
-        Ver seleccionados
-      </button>
-
-      <ModalSeleccionados
-        open={openModalSeleccionados}
-        setOpen={setOpenModalSeleccionados}
-        userId={user}
-      />
-       <button
-        className="rounded-xl px-3 py-2 hover:bg-gray-300 dark:hover:bg-gray-700 flex items-center justify-center"
-        onClick={() => navigate("/Jugar")}
-      >
-        Jugar
-      </button>
-       <ThemeToggleButton />
-      </>): (<></>)} 
-      {/* ---------- Settings menu ---------- */}
-      <div className="relative" ref={setRef}>
-        <button
-          className="rounded-xl h-10 w-10 hover:bg-gray-300 dark:hover:bg-gray-700 flex items-center justify-center"
-          onClick={() => setShowSettingsMenu(!showSettingsMenu)}
-        >
-          <span className="material-symbols-outlined text-gray-800 dark:text-white">
-            settings
-          </span>
-        </button>
-
-        {showSettingsMenu && user &&(
-          <div className="absolute right-0 mt-2 bg-white dark:bg-gray-900 shadow-lg rounded-lg p-2 w-44">
-            <button
-              className="block w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-              onClick={() => navigate("/ListaCartones")}
-            >
-              Lista de Cartones
-            </button>
-            <button
-              className="block w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-              onClick={() => navigate("/grupos")}
-            >
-              Mis Comunidades
-            </button>
-            {esAdmin && (
-              <button
-              className="block w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-              onClick={() => navigate("/grupo/usuarios")}
-            >
-               Usuarios del Grupo
-            </button>
+                <button
+                  className="block w-full p-2 hover:bg-gray-100 rounded"
+                >
+                  Iniciar sesión
+                </button>
+                <button
+                  onClick={openRegister}
+                  className="block w-full p-2 hover:bg-gray-100 rounded"
+                >
+                  Registrarse
+                </button>
+              </>
             )}
-            
           </div>
         )}
       </div>
+
+      {/* ---------------- Título ---------------- */}
+      <motion.h1
+        initial={{ opacity: 0, y: -15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="text-2xl font-extrabold"
+      >
+        Bingo<span className="text-indigo-500">Online</span>
+      </motion.h1>
+
+      {/* ---------------- Acciones Desktop ---------------- */}
+      {user && (
+        <motion.div
+          className="hidden md:flex items-center gap-3"
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.button
+            variants={slideFromRight}
+            custom={1}
+            className="rounded-xl px-3 py-2 hover:bg-gray-300 dark:hover:bg-gray-700"
+            onClick={() => setOpenModalSeleccionados(true)}
+          >
+            Ver seleccionados
+          </motion.button>
+
+          <motion.button
+            variants={slideFromRight}
+            custom={2}
+            className="rounded-xl px-3 py-2 hover:bg-gray-300 dark:hover:bg-gray-700"
+            onClick={() => navigate("/jugar")}
+          >
+            Jugar
+          </motion.button>
+
+          <motion.div variants={slideFromRight} custom={3}>
+            <ThemeToggleButton />
+          </motion.div>
+        </motion.div>
+      )}
+
+      {/* ---------------- Settings ---------------- */}
+      {user && (
+        <div className="relative" ref={setRef}>
+          <button
+            className="rounded-xl h-10 w-10 hover:bg-gray-300 dark:hover:bg-gray-700 flex items-center justify-center"
+            onClick={() => setShowSettingsMenu(!showSettingsMenu)}
+          >
+            <span className="material-symbols-outlined">settings</span>
+          </button>
+
+          {showSettingsMenu && (
+            <div className="absolute right-0 mt-2 bg-white dark:bg-gray-900 shadow-lg rounded-lg p-2 w-48 z-50">
+              <button
+                className="block w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                onClick={() => navigate("/ListaCartones")}
+              >
+                Lista de Cartones
+              </button>
+
+              <button
+                className="block w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                onClick={() => navigate("/grupos")}
+              >
+                Mis Comunidades
+              </button>
+
+              {esAdmin && (
+                <button
+                  className="block w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                  onClick={() => navigate("/grupo/usuarios")}
+                >
+                  Usuarios del Grupo
+                </button>
+              )}
+
+
+
+              {/* ---- SOLO MOBILE ---- */}
+                 <div className="block md:hidden border-t mt-1">
+                  <div className="flex">
+                    <button
+                      className="w-full justify-baseline p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                       onClick={() => setOpenModalSeleccionados(true)}
+                    >
+                      <div className="flex justify-between items-center w-full">
+                      Ver seleccionados
+                      </div>
+                    </button>
+                  </div>
+
+                  <div className="flex">
+                    <button
+                      className="w-full justify-baseline p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                       onClick={() => navigate("/jugar")}
+                    >
+                      <div className="flex justify-between items-center w-full">
+                      Jugar
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              
+            </div>
+          )}
+        </div>
+      )}
+            <ModalSeleccionados
+                        open={openModalSeleccionados}
+                        setOpen={setOpenModalSeleccionados}
+                        userId={user}
+                      />  
+      
     </header>
   );
 }
+
+/* ---------------- Animación ---------------- */
+const slideFromRight = {
+  hidden: { opacity: 0, x: 80 },
+  visible: (i = 1) => ({
+    opacity: 1,
+    x: 0,
+    transition: {
+      delay: i * 0.15,
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  }),
+};

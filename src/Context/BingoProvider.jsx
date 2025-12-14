@@ -1,49 +1,64 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { UseSocketContext } from "./SocketContextProvider";
 import api from "./api";
-import { UseAuth } from "./AuthContext";
 import Swal from "sweetalert2";
 import { BingoContext } from "./BingoContext";
 import { toast } from "react-toastify";
+import { UseGroups } from "./GroupContext";
 
 export const BingoProvider = ({ children }) => {
   const socket = UseSocketContext();
-  const { user } = UseAuth();
-
+  const {userActual } = UseGroups();
+  const user =userActual?.user;
   const [bolillas, setBolillas] = useState([]);
   const [ultimaBolilla, setUltimaBolilla] = useState(null);
   const [gameStatus, setGameStatus] = useState("waiting");
+  const prevGroupRef = useRef(null);
 
   /* 
   =============================================
   🔹 1. UNIRSE AL GRUPO CUANDO SE CONECTA
   =============================================
   */
-  useEffect(() => {
-    if (!socket) return;
-    if (!user?.grupoActivo?._id) return;
 
-    const groupId = user.grupoActivo._id;
+    useEffect(() => {
+      if (!socket || !user?.grupoActivo?._id) return;
 
-    socket.emit("joinGroup", groupId);
-    // Escuchar bolilla en tiempo real
-    socket.on("bolillaGenerada", (data) => {
+      const groupId = user.grupoActivo._id;
 
-      setUltimaBolilla(data.numero);
-      setBolillas(data.numerosSalidos);
-    });
+      // 🔴 salir del grupo anterior
+      if (prevGroupRef.current) {
+        socket.emit("leaveGroup", prevGroupRef.current);
+      }
 
-    // Estado de juego (si querés usarlo)
-    socket.on("estadoBolillero", (estado) => {
-      setGameStatus(estado);
-    });
+      // 🟢 entrar al nuevo grupo
+      socket.emit("joinGroup", groupId);
+      prevGroupRef.current = groupId;
 
-    return () => {
-      socket.off("bolillaGenerada");
-      socket.off("estadoBolillero");
-    };
+    }, [socket, user?.grupoActivo?._id]);
 
-  }, [socket, user?.grupoActivo]);
+    useEffect(() => {
+      if (!socket || !userActual?.user?.grupoActivo?._id) return;
+
+      const onBolilla = (data) => {
+        setUltimaBolilla(data.numero);
+        setBolillas(data.numerosSalidos);
+      };
+
+      const onEstado = (estado) => {
+        setGameStatus(estado);
+      };
+
+      socket.on("bolillaGenerada", onBolilla);
+      socket.on("estadoBolillero", onEstado);
+
+      return () => {
+        socket.off("bolillaGenerada", onBolilla);
+        socket.off("estadoBolillero", onEstado);
+      };
+
+    }, [socket, userActual?.user?.grupoActivo?._id]);
+
 
   
   /* 
@@ -62,12 +77,16 @@ export const BingoProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    if (!user?.grupoActivo?._id) return;
+useEffect(() => {
+  if (!user?.grupoActivo?._id) return;
 
-    fetchEstado(user.grupoActivo._id);
-  }, [user]);
+  setBolillas([]);
+  setUltimaBolilla(null);
+  setGameStatus("waiting");
 
+  fetchEstado(user.grupoActivo._id);
+
+}, [user?.grupoActivo?._id]);
 
   /* 
   =============================================
@@ -78,8 +97,8 @@ export const BingoProvider = ({ children }) => {
     const groupId = user?.grupoActivo?._id;
 
     try {
-      await api.post("/bolillero/sacar", { groupId });
-      // ❗ NO actualizar manualmente. El socket enviará la bolilla al grupo.
+      await api.post(`/bolillero/sacar/${groupId}`);
+
     } catch (err) {
       Swal.fire("Error", err.message, "error");
     }
